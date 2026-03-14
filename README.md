@@ -4,6 +4,8 @@
 
 **⚡ Parallel Execution** — Spin up multiple isolated Docker containers simultaneously, one per test case. 10 tests = 10 browsers running at the same time.
 
+**⚡ Why not MCP?** BrowserAgent uses `playwright-cli` directly instead of the Playwright MCP server — making it significantly faster, more token-efficient, and cheaper to run. MCP loads large tool schemas into context on every turn. BrowserAgent doesn't.
+
 **🐳 Fully Containerized** — Every test runs in its own isolated Docker container with its own Chrome browser, filesystem, and network. No shared sessions, no interference.
 
 **📊 Pytest Reporting** — Automatic HTML reports and JSON summaries generated after every run via pytest integration. Every test case gets its own result file.
