@@ -1,0 +1,10 @@
+Description
+
+1. Navigate to: https://the-internet.herokuapp.com/login
+2. Login with username "tomsmith" and password "SuperSecretPassword!"
+3. Verify the login was successful by checking for the message "You logged into a secure area!"
+4. Logout by clicking the logout button
+5. Verify the logout was successful by checking for the message "You logged out of the secure area!"
+6. Close the browser.
+
+At the end output either "FINAL_RESULT: PASS" or "FINAL_RESULT: FAIL" based on whether all steps were completed successfully.

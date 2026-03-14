@@ -1,0 +1,289 @@
+
+Task: Description
+1. Navigate to draftkings.com
+2. Navigate to the nba section then gamelines section. And get me the betting odds of today.
+4. Display the odds for nba game today in json format
+5. At the end of the task output either "FINAL_RESULT: PASS" or "FINAL_RESULT: FAIL" based on whether the task was completed successfully or why it failed.
+6. Close Browser.
+
+
+──────────────────────────────────────────────────
+
+Agent: 
+
+I'll help you get the NBA betting odds from DraftKings. Let me start by navigating to the site.
+
+→ Navigate to DraftKings sportsbook
+
+  $ playwright-cli open https://www.draftkings.com/sportsbook --browser chrome --no-sandbox
+  ### Browser `default` opened with pid 20.
+- default:
+  - browser-type: chrome
+  - user-data-dir: <in-memory>
+  - headed: false
+---
+error: unknown '--sandbox' option
+
+→ See the current page state
+
+  $ playwright-cli snapshot
+  ### Page
+- Page URL: about:blank
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-03-14T23-00-13-420Z.yml)
+
+→ Navigate directly to the DraftKings NBA sportsbook page
+
+  $ playwright-cli open https://sportsbook.draftkings.com/leagues/basketball/nba --browser chrome --no-sandbox
+  ### Browser `default` opened with pid 153.
+- default:
+  - browser-type: chrome
+  - user-data-dir: <in-memory>
+  - headed: false
+---
+error: unknown '--sandbox' option
+
+→ See the NBA sportsbook page
+
+  $ playwright-cli snapshot
+  ### Page
+- Page URL: about:blank
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-03-14T23-00-24-708Z.yml)
+
+Agent: It seems the page is blank. Let me try a different approach.
+
+→ Navigate to DraftKings homepage first
+
+  $ playwright-cli open https://www.draftkings.com --browser chrome --no-sandbox
+  ### Browser `default` opened with pid 285.
+- default:
+  - browser-type: chrome
+  - user-data-dir: <in-memory>
+  - headed: false
+---
+error: unknown '--sandbox' option
+
+→ Check the DraftKings homepage
+
+  $ playwright-cli snapshot
+  ### Page
+- Page URL: about:blank
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-03-14T23-00-34-889Z.yml)
+
+Agent: The page appears blank. Let me try waiting a moment and then navigating.
+
+→ Check current URL
+
+  $ playwright-cli eval "window.location.href"
+  ### Result
+"about:blank"
+### Ran Playwright code
+```js
+await page.evaluate('() => (window.location.href)');
+```
+
+→ Navigate to DraftKings NBA sportsbook via JavaScript
+
+  $ playwright-cli eval "window.location.href = 'https://sportsbook.draftkings.com/leagues/basketball/nba'"
+  ### Result
+"https://sportsbook.draftkings.com/leagues/basketball/nba"
+### Ran Playwright code
+```js
+await page.evaluate('() => (window.location.href = \'https://sportsbook.draftkings.com/leagues/basketball/nba\')');
+```
+### Page
+- Page URL: https://sportsbook.draftkings.com/leagues/basketball/nba
+- Page Title: NBA Betting Odds & Lines | DraftKings Sportsbook
+- Console: 0 errors, 2 warnings
+### Events
+- New console entries: .playwright-cli/console-2026-03-14T23-00-34-732Z.log#L1-L2
+
+Agent: The page loaded successfully. Let me take a snapshot to see the content.
+
+→ See the NBA betting odds page content
+
+  $ playwright-cli snapshot
+  ### Page
+- Page URL: https://sportsbook.draftkings.com/leagues/basketball/nba
+- Page Title: NBA Betting Odds, Spreads & Lines | DraftKings Sportsbook
+- Console: 2 errors, 3 warnings
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-03-14T23-00-50-688Z.yml)
+### Events
+- New console entries: .playwright-cli/console-2026-03-14T23-00-34-732Z.log#L3-L10
+
+→ Get the text content of the page to see the betting odds
+
+  $ playwright-cli eval "document.body.innerText.substring(0, 5000)"
+  ### Result
+"DAILY FANTASY\nSPORTSBOOK\nCASINO\nPICK6\nLOTTERY\nMORE\nResponsible Gaming\nHome\nMy Bets\nLive In-Game\nRewards\nHow To Bet\nVIP\nMORE\nWant to start placing bets?\nLog In\nPOPULAR\nCollege Basketball (M)\nNBA\nNHL\nTHE PLAYERS Championship\nUFC\nWorld Baseball Classic\nEnglish Premier League\nSpain - La Liga\nATP - Indian Wells\nMexico - Liga MX\nChampions League\nMLS\nItaly - Serie A\nCollege Baseball\nFrance - Ligue 1\nFormula 1\nSPORT TEAMS\nA-Z SPORTS\nAUSSIE RULES\nBASEBALL\nBASKETBALL\nNBA\nCollege Basketball (M)\nCollege Basketball (W)\nEuroLeague\nView All (55)\nBOXING\nCRICKET\nCYCLING\nDARTS\nE-SPORTS\nFOOTBALL\nGOLF\nHANDBALL\nHOCKEY\nJAI ALAI\nLACROSSE\nMMA\nMOTORSPORTS\nRODEO\nRUGBY LEAGUE\nRUGBY UNION\nSAILING\nSNOOKER\nSOCCER\nTABLE TENNIS\nTENNIS\nVOLLEYBALL\nNFL WEEKLY ODDS\nPRIMETIME GAMES\nPROP BETS\nFUTURES\nPLAYOFF PAGES\nCollege Football Playoffs\nNBA Playoffs\nNFL Playoffs\nCHAMPIONSHIP PAGES\nDaytona 500\nNBA Finals\nRyder Cup\nStanley Cup\nSuper Bowl\nWorld Series\nSportsbook / Basketball Odds / NBA Odds\nGet A 30% Profit Boost To Use On A 4+ Leg NBA SGP Or SGPx Bet Today!\nOpt In\nJoin The NBA Player Pulse, A New Curated DraftKings Betting Group!\nJoin Now\nGAME LINES\nBET THE STARS\nLIVE PLAYER POINTS\nLIVE PLAYER ASSISTS\nLIVE PLAYER THREES\nLIVE PLAYER REBOUNDS\nLIVE PLAYER COMBOS\nPLAYER POINTS\nPLAYER THREES\nPLAYER REBOUNDS\nPLAYER ASSISTS\nPLAYER COMBOS\nPLAYER DEFENSE\nCOMBINED PLAYER PROPS\nQUICK HITS\nHALVES\nTEAM PROPS\nTEAM FUTURES\nPLAYOFFS\nPLAY IN\nSTAT LEADERS\nAWARDS\nLIVE PLAYER DEFENSE\n2026 DRAFT\nGAME\nALTERNATE SPREAD\nALTERNATE TOTAL\nSPREAD / TOTAL\nMONEYLINE / TOTAL\nMONEYLINE (3-WAY)\nHALFTIME/FULLTIME\nQUARTER/FULLTIME\nToday\n\nSpread\n\nTotal\n\nMoneyline\n\nWAS Wizards\n40\nAT\nBOS Celtics\n60\n+27.5\n−120\nO\n224.5\n−110\n+9000\n-27.5\n−110\nU\n224.5\n−120\n−100000\n2nd Quarter1:58\nMore Bets\nTomorrow\n\nSpread\n\nTotal\n\nMoneyline\n\nORL Magic\nAT\nMIA Heat\n+4.5\n−110\nO\n237.5\n−108\n+150\n-4.5\n−110\nU\n237.5\n−112\n−180\nTomorrow 12:10 AM\nMore Bets\nDEN Nuggets\nAT\nLA Lakers\n-2.5\n−110\nO\n244.5\n−112\n−135\n+2.5\n−110\nU\n244.5\n−108\n+114\nTomorrow 12:40 AM\nMore Bets\nSAC Kings\nAT\nLA Clippers\n+13.5\n−112\nO\n233.5\n−105\n+600\n-13.5\n−108\nU\n233.5\n−115\n−900\nTomorrow 2:40 AM\nMore Bets\nMIN Timberwolves\nAT\nOKC Thunder\n+8.5\n−105\nO\n225.5\n−110\n+270\n-8.5\n−115\nU\n225.5\n−110\n−340\nTomorrow 5:10 PM\nMore Bets\nDET Pistons\nAT\nTOR Raptors\n-4.5\n−105\nO\n220.5\n−110\n−175\n+4.5\n−115\nU\n220.5\n−110\n+145\nTomorrow 7:40 PM\nMore Bets\nNBA Betting News\n6:56 PM · Mar 13, 2026\nMost Bet NBA Player Props for Friday 3/13/26\nGarion Thorne analyzes today's popular NBA player props utilizing DraftKings Network's Most Bet Player Prop tool to spotlight top trending picks. The post Most Bet NBA Player Props for Friday 3/13/26 appeared first on DraftKings Network.\nVIEW FULL ARTICLE\nAuthor(s): Garion Thorne.\n5:14 PM · Mar 13, 2026\nBest NBA player prop bets f
+... (truncated)
+
+Agent: I can see the NBA betting odds. Let me get more data to capture all of today's games.
+
+→ Get more text content to see if there are additional games
+
+  $ playwright-cli eval "document.body.innerText.substring(5000, 8000)"
+  ### Result
+"r you're a die-hard NBA fan or a casual viewer interested in exploring sports betting, our platform is diligently designed to deliver an unmatched betting experience.\n\nPopular NBA Events\n\nNBA betting involves several significant events throughout the season that attract sports lovers and bettors alike. These events provide thrilling opportunities to bet on the games and leverage the NBA odds. At DraftKings, we offer a broad spectrum of betting options and competitive NBA odds for all the major events. Let's examine some of the most eagerly anticipated NBA betting events:\n\nSeason Openers: The onset of the NBA season always brings excitement for basketball enthusiasts. It's the perfect time to evaluate the teams, their lineups, and place informed bets. Our platform offers comprehensive NBA odds, including NBA spreads, for season openers, helping you make strategic wagers and maximize potential winnings.\nNBA Playoffs: The NBA Playoffs are the culmination of the regular season, featuring the best teams vying for the championship title. The intensity of playoff games provides prime opportunities for NBA betting. At DraftKings, we offer the latest NBA betting odds for each playoff game, ensuring you have access to the most recent information for informed betting decisions.\nNBA Finals: The NBA Finals is the epitome of basketball excellence, with the top two teams competing for the championship trophy. As the anticipation rises, our platform offers an array of NBA betting options, including NBA Finals odds and NBA title odds, from traditional moneyline bets to prop bets and live in-game wagering. With our competitive NBA odds, you can augment your Finals experience and potentially earn substantial payouts.\nHow to Read NBA Odds\n\nUnderstanding NBA odds is essential for successful NBA betting. The American format is widely used for NBA odds, and it's crucial to be familiar with it. Let's illustrate this with an example:\n\nIn American odds, positive and negative odds indicate the potential profit for a $100 bet and the amount required to bet to win $100, respectively. For instance, if the NBA betting odds are +150, a $100 bet could yield a $150 profit. Conversely, NBA odds of -200 mean you need to bet $200 to win a $100 profit.\n\nFurthermore, the plus and minus signs generally signify the underdog and favorite teams, respectively. The team with positive NBA odds is the underdog, while the team with negative NBA betting odds is expected to win.\n\nNow that you understand how to read American format odds in NBA betting, you can make more informed decisions when placing your bets. Remember, NBA odds can shift based on various factors, such as injuries, team performance, and public sentiment. Stay updated and leverage this knowledge to your advantage.\n\nPopular NBA Betting Types\n\nThere are several popular types of bets you can place when betting on the NBA, adding an extra layer of excitement to the game. Understanding these different
+... (truncated)
+
+Agent: I now have all the data I need. Let me extract the game lines more precisely for today's games.
+
+→ Get the complete game lines section with all odds
+
+  $ playwright-cli eval "document.body.innerText.substring(2600, 4200)"
+  ### Result
+"day 3/13/26 appeared first on DraftKings Network.\nVIEW FULL ARTICLE\nAuthor(s): Garion Thorne.\n5:14 PM · Mar 13, 2026\nBest NBA player prop bets for Friday 3/13/26\nThere are eight games of NBA action across tonight's Friday slate. We are roughly 80% of the way through the NBA season, and every matchup is beginning to carry some additional weight. Headlining tonight's matchup includes the Cleveland Cavaliers facing the Dallas Mavericks, the Phoenix Suns taking on the Toronto Raptors, and the Minnesota Timberwolves...\nVIEW FULL ARTICLE\nAuthor(s): Sean Barnard.\n7:29 PM · Mar 12, 2026\nMost Bet NBA Player Props for Thursday 3/12/26\nGarion Thorne analyzes today's popular NBA player props utilizing DraftKings Network's Most Bet Player Prop tool to spotlight top trending picks. The post Most Bet NBA Player Props for Thursday 3/12/26 appeared first on DraftKings Network.\nVIEW FULL ARTICLE\nAuthor(s): Garion Thorne.\n7:50 PM · Mar 11, 2026\nUtah Jazz vs. New York Knicks prediction, pick for Wednesday 3/11/26\nBlake Krass breaks down his prediction and pick for Wednesday's game between the Utah Jazz and the New York Knicks. The post Utah Jazz vs. New York Knicks prediction, pick for Wednesday 3/11/26 appeared first on DraftKings Network.\nVIEW FULL ARTICLE\nAuthor(s): Blake Krass.\n6:18 PM · Mar 11, 2026\nMost Bet NBA Player Props for Wednesday 3/11/26\nGarion Thorne analyzes today's popular NBA player props utilizing DraftKings Network's Most Bet Player Prop tool to spotlight top trending picks. The post Most Bet NBA Player Props for Wednesday 3/11/26 appeared first on DraftKings Network.\nVIEW "
+### Ran Playwright code
+```js
+await page.evaluate('() => (document.body.innerText.substring(2600, 4200))');
+```
+
+Agent: Now I have all the data. Let me compile the NBA odds for today. Based on the page content, I can see the games clearly. Let me now format and display the results.
+
+From the DraftKings NBA page, I can see:
+
+**Today's Game (Live - 2nd Quarter):**
+- **WAS Wizards @ BOS Celtics** (2nd Quarter, 1:58 remaining)
+
+**Tomorrow's Games:**
+- ORL Magic @ MIA Heat
+- DEN Nuggets @ LA Lakers
+- SAC Kings @ LA Clippers
+- MIN Timberwolves @ OKC Thunder
+- DET Pistons @ TOR Raptors
+
+Let me output the today's game odds in JSON format:
+
+→ Format and display the NBA betting odds in JSON format
+
+  $ playwright-cli eval "JSON.stringify({ 'date': 'Today - March 14, 2026', 'source': 'DraftKings Sportsbook', 'section': 'NBA Game Lines', 'todays_games': [ { 'game': 'WAS Wizards @ BOS Celtics', 'status': 'LIVE - 2nd Quarter 1:58', 'score': { 'WAS_Wizards': 40, 'BOS_Celtics': 60 }, 'spread': { 'WAS_Wizards': { 'line': '+27.5', 'odds': '-120' }, 'BOS_Celtics': { 'line': '-27.5', 'odds': '-110' } }, 'total': { 'over': { 'line': '224.5', 'odds': '-110' }, 'under': { 'line': '224.5', 'odds': '-120' } }, 'moneyline': { 'WAS_Wizards': '+9000', 'BOS_Celtics': '-100000' } } ], 'upcoming_games_tomorrow': [ { 'game': 'ORL Magic @ MIA Heat', 'time': 'Tomorrow 12:10 AM', 'spread': { 'ORL_Magic': { 'line': '+4.5', 'odds': '-110' }, 'MIA_Heat': { 'line': '-4.5', 'odds': '-110' } }, 'total': { 'over': { 'line': '237.5', 'odds': '-108' }, 'under': { 'line': '237.5', 'odds': '-112' } }, 'moneyline': { 'ORL_Magic': '+150', 'MIA_Heat': '-180' } }, { 'game': 'DEN Nuggets @ LA Lakers', 'time': 'Tomorrow 12:40 AM', 'spread': { 'DEN_Nuggets': { 'line': '-2.5', 'odds': '-110' }, 'LA_Lakers': { 'line': '+2.5', 'odds': '-110' } }, 'total': { 'over': { 'line': '244.5', 'odds': '-112' }, 'under': { 'line': '244.5', 'odds': '-108' } }, 'moneyline': { 'DEN_Nuggets': '-135', 'LA_Lakers': '+114' } }, { 'game': 'SAC Kings @ LA Clippers', 'time': 'Tomorrow 2:40 AM', 'spread': { 'SAC_Kings': { 'line': '+13.5', 'odds': '-112' }, 'LA_Clippers': { 'line': '-13.5', 'odds': '-108' } }, 'total': { 'over': { 'line': '233.5', 'odds': '-105' }, 'under': { 'line': '233.5', 'odds': '-115' } }, 'moneyline': { 'SAC_Kings': '+600', 'LA_Clippers': '-900' } }, { 'game': 'MIN Timberwolves @ OKC Thunder', 'time': 'Tomorrow 5:10 PM', 'spread': { 'MIN_Timberwolves': { 'line': '+8.5', 'odds': '-105' }, 'OKC_Thunder': { 'line': '-8.5', 'odds': '-115' } }, 'total': { 'over': { 'line': '225.5', 'odds': '-110' }, 'under': { 'line': '225.5', 'odds': '-110' } }, 'moneyline': { 'MIN_Timberwolves': '+270', 'OKC_Thunder': '-340' } }, { 'game': 'DET Pistons @ TOR Raptors', 'time': 'Tomorrow 7:40 PM', 'spread': { 'DET_Pistons': { 'line': '-4.5', 'odds': '-105' }, 'TOR_Raptors': { 'line': '+4.5', 'odds': '-115' } }, 'total': { 'over': { 'line': '220.5', 'odds': '-110' }, 'under': { 'line': '220.5', 'odds': '-110' } }, 'moneyline': { 'DET_Pistons': '-175', 'TOR_Raptors': '+145' } } ] }, null, 2)"
+  ### Result
+"{\n  \"date\": \"Today - March 14, 2026\",\n  \"source\": \"DraftKings Sportsbook\",\n  \"section\": \"NBA Game Lines\",\n  \"todays_games\": [\n    {\n      \"game\": \"WAS Wizards @ BOS Celtics\",\n      \"status\": \"LIVE - 2nd Quarter 1:58\",\n      \"score\": {\n        \"WAS_Wizards\": 40,\n        \"BOS_Celtics\": 60\n      },\n      \"spread\": {\n        \"WAS_Wizards\": {\n          \"line\": \"+27.5\",\n          \"odds\": \"-120\"\n        },\n        \"BOS_Celtics\": {\n          \"line\": \"-27.5\",\n          \"odds\": \"-110\"\n        }\n      },\n      \"total\": {\n        \"over\": {\n          \"line\": \"224.5\",\n          \"odds\": \"-110\"\n        },\n        \"under\": {\n          \"line\": \"224.5\",\n          \"odds\": \"-120\"\n        }\n      },\n      \"moneyline\": {\n        \"WAS_Wizards\": \"+9000\",\n        \"BOS_Celtics\": \"-100000\"\n      }\n    }\n  ],\n  \"upcoming_games_tomorrow\": [\n    {\n      \"game\": \"ORL Magic @ MIA Heat\",\n      \"time\": \"Tomorrow 12:10 AM\",\n      \"spread\": {\n        \"ORL_Magic\": {\n          \"line\": \"+4.5\",\n          \"odds\": \"-110\"\n        },\n        \"MIA_Heat\": {\n          \"line\": \"-4.5\",\n          \"odds\": \"-110\"\n        }\n      },\n      \"total\": {\n        \"over\": {\n          \"line\": \"237.5\",\n          \"odds\": \"-108\"\n        },\n        \"under\": {\n          \"line\": \"237.5\",\n          \"odds\": \"-112\"\n        }\n      },\n      \"moneyline\": {\n        \"ORL_Magic\": \"+150\",\n        \"MIA_Heat\": \"-180\"\n      }\n    },\n    {\n      \"game\": \"DEN Nuggets @ LA Lakers\",\n      \"time\": \"Tomorrow 12:40 AM\",\n      \"spread\": {\n        \"DEN_Nuggets\": {\n          \"line\": \"-2.5\",\n          \"odds\": \"-110\"\n        },\n        \"LA_Lakers\": {\n          \"line\": \"+2.5\",\n          \"odds\": \"-110\"\n        }\n      },\n      \"total\": {\n        \"over\": {\n          \"line\": \"244.5\",\n          \"odds\": \"-112\"\n        },\n        \"under\": {\n          \"line\": \"244.5\",\n          \"odds\": \"-108\"\n        }\n      },\n      \"moneyline\": {\n        \"DEN_Nuggets\": \"-135\",\n        \"LA_Lakers\": \"+114\"\n      }\n    },\n    {\n      \"game\": \"SAC Kings @ LA Clippers\",\n      \"time\": \"Tomorrow 2:40 AM\",\n      \"spread\": {\n        \"SAC_Kings\": {\n          \"line\": \"+13.5\",\n          \"odds\": \"-112\"\n        },\n        \"LA_Clippers\": {\n          \"line\": \"-13.5\",\n          \"odds\": \"-108\"\n        }\n      },\n      \"total\": {\n        \"over\": {\n          \"line\": \"233.5\",\n          \"odds\": \"-105\"\n        },\n        \"under\": {\n          \"line\": \"233.5\",\n          \"odds\": \"-115\"\n        }\n      },\n      \"moneyline\": {\n        \"SAC_Kings\": \"+600\",\n        \"LA_Clippers\": \"-900\"\n      }\n    },\n    {\n      \"game\": \"MIN Timberwolves @ OKC Thunder\",\n      \"time\": \"Tomorrow 5:10
+... (truncated)
+
+Agent: Now let me take a screenshot for reference and then close the browser.
+
+→ Take a screenshot of the NBA odds page for reference
+
+  $ playwright-cli screenshot
+  ### Result
+- [Screenshot of viewport](.playwright-cli/page-2026-03-14T23-01-27-030Z.png)
+### Ran Playwright code
+```js
+// Screenshot viewport and save it as .playwright-cli/page-2026-03-14T23-01-27-030Z.png
+await page.screenshot({
+path: '.playwright-cli/page-2026-03-14T23-01-27-030Z.png',
+  scale: 'css',
+  type: 'png'
+});
+```
+
+→ Close the browser as requested
+
+  $ playwright-cli close
+  Browser 'default' closed
+
+Agent: ## Summary
+
+I successfully navigated to DraftKings Sportsbook → NBA → Game Lines section and extracted today's NBA betting odds. Here are the results in JSON format:
+
+### NBA Betting Odds - Today (March 14, 2026)
+
+```json
+{
+  "date": "Today - March 14, 2026",
+  "source": "DraftKings Sportsbook",
+  "section": "NBA Game Lines",
+  "todays_games": [
+    {
+      "game": "WAS Wizards @ BOS Celtics",
+      "status": "LIVE - 2nd Quarter 1:58",
+      "score": {
+        "WAS_Wizards": 40,
+        "BOS_Celtics": 60
+      },
+      "spread": {
+        "WAS_Wizards": { "line": "+27.5", "odds": "-120" },
+        "BOS_Celtics": { "line": "-27.5", "odds": "-110" }
+      },
+      "total": {
+        "over": { "line": "224.5", "odds": "-110" },
+        "under": { "line": "224.5", "odds": "-120" }
+      },
+      "moneyline": {
+        "WAS_Wizards": "+9000",
+        "BOS_Celtics": "-100000"
+      }
+    }
+  ],
+  "upcoming_games_tomorrow": [
+    {
+      "game": "ORL Magic @ MIA Heat",
+      "time": "Tomorrow 12:10 AM",
+      "spread": { "ORL_Magic": "+4.5 (-110)", "MIA_Heat": "-4.5 (-110)" },
+      "total": { "over": "237.5 (-108)", "under": "237.5 (-112)" },
+      "moneyline": { "ORL_Magic": "+150", "MIA_Heat": "-180" }
+    },
+    {
+      "game": "DEN Nuggets @ LA Lakers",
+      "time": "Tomorrow 12:40 AM",
+      "spread": { "DEN_Nuggets": "-2.5 (-110)", "LA_Lakers": "+2.5 (-110)" },
+      "total": { "over": "244.5 (-112)", "under": "244.5 (-108)" },
+      "moneyline": { "DEN_Nuggets": "-135", "LA_Lakers": "+114" }
+    },
+    {
+      "game": "SAC Kings @ LA Clippers",
+      "time": "Tomorrow 2:40 AM",
+      "spread": { "SAC_Kings": "+13.5 (-112)", "LA_Clippers": "-13.5 (-108)" },
+      "total": { "over": "233.5 (-105)", "under": "233.5 (-115)" },
+      "moneyline": { "SAC_Kings": "+600", "LA_Clippers": "-900" }
+    },
+    {
+      "game": "MIN Timberwolves @ OKC Thunder",
+      "time": "Tomorrow 5:10 PM",
+      "spread": { "MIN_Timberwolves": "+8.5 (-105)", "OKC_Thunder": "-8.5 (-115)" },
+      "total": { "over": "225.5 (-110)", "under": "225.5 (-110)" },
+      "moneyline": { "MIN_Timberwolves": "+270", "OKC_Thunder": "-340" }
+    },
+    {
+      "game": "DET Pistons @ TOR Raptors",
+      "time": "Tomorrow 7:40 PM",
+      "spread": { "DET_Pistons": "-4.5 (-105)", "TOR_Raptors": "+4.5 (-115)" },
+      "total": { "over": "220.5 (-110)", "under": "220.5 (-110)" },
+      "moneyline": { "DET_Pistons": "-175", "TOR_Raptors": "+145" }
+    }
+  ]
+}
+```
+
+**Key Findings:**
+- **1 game today (LIVE):** WAS Wizards @ BOS Celtics — Celtics heavily favored at -27.5 spread, moneyline -100000
+- **5 upcoming games tomorrow** listed on the page
+- All odds include spread, total (over/under), and moneyline
+- Browser has been closed
+
+FINAL_RESULT: PASS
+
+──────────────────────────────────────────────────
+Done.
+
+Log saved to containertestcaseresults/run_20260314_230001/agent_1_testdescription2_20260314_230001.txt
+
+Generating test report...
+Traceback (most recent call last):
+  File "/app/aiagentcontroller.py", line 211, in <module>
+    main()
+  File "/app/aiagentcontroller.py", line 202, in main
+    subprocess.run([
+  File "/usr/local/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/local/lib/python3.12/subprocess.py", line 1955, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'pytest'

@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-03-14 17:03:10",
+  "total": 3,
+  "passed": 3,
+  "failed": 0,
+  "results": [
+    {
+      "test": "testdescription1_testdescription1",
+      "status": "PASS",
+      "duration_seconds": 0.0,
+      "error": null
+    },
+    {
+      "test": "testdescription2_testdescription2",
+      "status": "PASS",
+      "duration_seconds": 0.0,
+      "error": null
+    },
+    {
+      "test": "testdescription3_testdescription3",
+      "status": "PASS",
+      "duration_seconds": 0.0,
+      "error": null
+    }
+  ]
+}

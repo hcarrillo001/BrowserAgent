@@ -4,8 +4,7 @@ Playwright-CLI Agent
 Give it plain English instructions → it drives the browser using playwright-cli.
 
 Usage:
-  python pw_agent.py "Log into github.com with user@email.com and password abc123"
-  python pw_agent.py instructions.txt
+  python aiagentcontroller.py instructions.txt
 
 Setup:
   npm install -g @playwright/cli@latest
@@ -17,6 +16,7 @@ import os
 import sys
 import subprocess
 import anthropic
+from datetime import datetime
 from dotenv import load_dotenv
 
 
@@ -70,7 +70,7 @@ You execute them step by step using playwright-cli commands.
 {SKILL}
 
 Rules:
-- Always start with `playwright-cli open <url> --headed` then `playwright-cli snapshot`
+- Always start with `playwright-cli open <url>` then `playwright-cli snapshot`
 - Use snapshot output to find element refs before clicking/filling
 - Re-snapshot after page changes to get fresh refs
 - Print a brief note before each command explaining what you're doing
@@ -91,11 +91,18 @@ tools = [{
 }]
 
 def run(command: str) -> str:
+    if "playwright-cli open" in command:
+        if "--headed" not in command and os.getenv("HEADLESS") != "true":
+            command = command + " --headed"
+        if "--browser" not in command:
+            command = command + " --browser chrome"
+        if os.getenv("HEADLESS") == "true" and "--no-sandbox" not in command:
+            command = command + " --no-sandbox"
+
     print(f"\n  $ {command}")
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
     output = (result.stdout + result.stderr).strip()
     if output:
-        # Truncate very long snapshots to avoid flooding context
         if len(output) > 3000:
             output = output[:3000] + "\n... (truncated)"
         print(f"  {output}")
@@ -109,8 +116,12 @@ def run_agent(instructions: str):
     messages = [{"role": "user", "content": instructions}]
 
     while True:
-        response = client.messages.create(model="claude-opus-4-6",max_tokens=4096,
-            system=SYSTEM,tools=tools,messages=messages
+        response = client.messages.create(
+            model="claude-opus-4-6",
+            max_tokens=4096,
+            system=SYSTEM,
+            tools=tools,
+            messages=messages
         )
 
         for block in response.content:
@@ -138,30 +149,63 @@ def run_agent(instructions: str):
 
     print(f"\n{'─'*50}\nDone.")
 
-
 def read_from_file(file_name):
     try:
         with open(file_name, "r") as file:
             content = file.read()
-            print(content)
             return content
     except FileNotFoundError:
-        print("Error: The file 'my_file.txt' was not found.")
-
+        print(f"Error: File '{file_name}' was not found.")
+        return None
 
 def main():
-    file_name = "testdescription1.txt"
+    load_dotenv()
+
+    if len(sys.argv) > 1:
+        file_name = sys.argv[1]
+    else:
+        file_name = os.path.join("testcases", "testdescription1.txt")
+
     test_description = read_from_file(file_name)
-    print("Testing")
-    instructions = ("Go to bet365 nba and get me the over/under.Fee free to take screen shot to evalueat")
-    run_agent(test_description)
+    if not test_description:
+        return
 
+    # Create run dir
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    results_dir = "containertestcaseresults"
+    run_dir = os.path.join(results_dir, f"run_{timestamp}")
+    os.makedirs(run_dir, exist_ok=True)
 
+    stem = os.path.splitext(os.path.basename(file_name))[0]
+    log_file = os.path.join(run_dir, f"agent_1_{stem}_{timestamp}.txt")
 
+    # Tee output to both terminal and log file
+    original_stdout = sys.stdout
+
+    class Tee:
+        def write(self, data):
+            original_stdout.write(data)
+            f.write(data)
+        def flush(self):
+            original_stdout.flush()
+            f.flush()
+
+    with open(log_file, "w") as f:
+        sys.stdout = Tee()
+        run_agent(test_description)
+        sys.stdout = original_stdout
+
+    print(f"\nLog saved to {log_file}")
+
+    # Run pytest and generate report
+    print("\nGenerating test report...")
+    subprocess.run([
+        "pytest", f"testcases/{os.path.basename(file_name)}",
+        f"--html={run_dir}/report_{timestamp}.html",
+        "--self-contained-html",
+        "-v"
+    ])
+    print(f"\nResults saved to {run_dir}/")
 
 if __name__ == "__main__":
     main()
-
-
-
-

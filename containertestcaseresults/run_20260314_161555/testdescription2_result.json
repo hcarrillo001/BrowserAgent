@@ -1,0 +1,8 @@
+{
+  "test_case": "testdescription2",
+  "timestamp": "2026-03-14 16:18:04",
+  "status": "PASS",
+  "completed": true,
+  "log_file": "agent_2_testdescription2_20260314_161556.txt",
+  "summary": "- **Moneyline:** Wizards +1300 / Celtics \u22123200\n- Tomorrow's games include: ORL Magic @ MIA Heat, DEN Nuggets @ LA Lakers, and SAC Kings @ LA Clippers.\nNow let me close the browser.\n\u2192 Close the browser as instructed\n$ playwright-cli close\nBrowser 'default' closed\nAgent: FINAL_RESULT: PASS\nThe task was completed successfully. I navigated to DraftKings Sportsbook, accessed the NBA Game Lines section, extracted today's betting odds (WAS Wizards @ BOS Celtics - a live game), displayed them in JSON format, and closed the browser.\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nDone."
+}

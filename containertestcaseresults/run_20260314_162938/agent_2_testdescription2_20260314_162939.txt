@@ -1,0 +1,299 @@
+
+Task: Description
+1. Navigate to draftkings.com
+2. Navigate to the nba section then gamelines section. And get me the betting odds of today.
+4. Display the odds for nba game today in json format
+5. At the end of the task output either "FINAL_RESULT: PASS" or "FINAL_RESULT: FAIL" based on whether the task was completed successfully or why it failed.
+6. Close Browser.
+
+
+──────────────────────────────────────────────────
+
+Agent: 
+
+I'll help you navigate to DraftKings and get the NBA betting odds. Let me start by opening the website.
+
+→ Navigate to DraftKings sportsbook
+
+  $ playwright-cli open https://www.draftkings.com/sportsbook --browser chrome --no-sandbox
+  ### Browser `default` opened with pid 20.
+- default:
+  - browser-type: chrome
+  - user-data-dir: <in-memory>
+  - headed: false
+---
+error: unknown '--sandbox' option
+
+→ Take a snapshot to see the current page state
+
+  $ playwright-cli snapshot
+  ### Page
+- Page URL: about:blank
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-03-14T22-29-51-834Z.yml)
+
+→ Navigate to DraftKings sportsbook directly
+
+  $ playwright-cli open https://sportsbook.draftkings.com --browser chrome --no-sandbox
+  ### Browser `default` opened with pid 154.
+- default:
+  - browser-type: chrome
+  - user-data-dir: <in-memory>
+  - headed: false
+---
+error: unknown '--sandbox' option
+
+→ Check the current page state after navigation
+
+  $ playwright-cli snapshot
+  ### Page
+- Page URL: about:blank
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-03-14T22-30-00-478Z.yml)
+
+Agent: Let me try a different approach to navigate.
+
+→ Navigate directly to DraftKings NBA sportsbook section
+
+  $ playwright-cli open "https://sportsbook.draftkings.com/leagues/basketball/nba" --browser chrome --no-sandbox
+  ### Browser `default` opened with pid 289.
+- default:
+  - browser-type: chrome
+  - user-data-dir: <in-memory>
+  - headed: false
+---
+error: unknown '--sandbox' option
+
+→ Check what loaded on the page
+
+  $ playwright-cli snapshot
+  ### Page
+- Page URL: about:blank
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-03-14T22-30-09-805Z.yml)
+
+Agent: It seems the page isn't loading. Let me try with a different URL format.
+
+→ Try navigating to the main DraftKings homepage first
+
+  $ playwright-cli open https://www.draftkings.com --browser chrome --no-sandbox
+  ### Browser `default` opened with pid 420.
+- default:
+  - browser-type: chrome
+  - user-data-dir: <in-memory>
+  - headed: false
+---
+error: unknown '--sandbox' option
+
+→ Check the page state
+
+  $ playwright-cli snapshot
+  ### Page
+- Page URL: about:blank
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-03-14T22-30-19-704Z.yml)
+
+→ Check the current URL to understand page state
+
+  $ playwright-cli eval "window.location.href"
+  ### Result
+"about:blank"
+### Ran Playwright code
+```js
+await page.evaluate('() => (window.location.href)');
+```
+
+→ Navigate to DraftKings NBA page using JavaScript
+
+  $ playwright-cli eval "window.location.href = 'https://sportsbook.draftkings.com/leagues/basketball/nba'"
+  ### Result
+"https://sportsbook.draftkings.com/leagues/basketball/nba"
+### Ran Playwright code
+```js
+await page.evaluate('() => (window.location.href = \'https://sportsbook.draftkings.com/leagues/basketball/nba\')');
+```
+### Page
+- Page URL: https://sportsbook.draftkings.com/leagues/basketball/nba
+- Page Title: NBA Betting Odds & Lines | DraftKings Sportsbook
+- Console: 0 errors, 3 warnings
+### Events
+- New console entries: .playwright-cli/console-2026-03-14T22-30-19-582Z.log#L1-L2
+
+Agent: The page loaded successfully. Let me take a snapshot to see the NBA betting page.
+
+→ See the NBA betting odds page content and elements
+
+  $ playwright-cli snapshot
+  ### Page
+- Page URL: https://sportsbook.draftkings.com/leagues/basketball/nba
+- Page Title: NBA Betting Odds, Spreads & Lines | DraftKings Sportsbook
+- Console: 2 errors, 4 warnings
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-03-14T22-30-35-330Z.yml)
+### Events
+- New console entries: .playwright-cli/console-2026-03-14T22-30-19-582Z.log#L3-L11
+
+→ Get the text content of the page to see NBA odds
+
+  $ playwright-cli eval "document.body.innerText.substring(0, 5000)"
+  ### Result
+"DAILY FANTASY\nSPORTSBOOK\nCASINO\nPICK6\nLOTTERY\nPREDICTIONS\nMORE\nResponsible Gaming\nHome\nMy Bets\nLive In-Game\nRewards\nHow To Bet\nVIP\nMORE\nWant to start placing bets?\nLog In\nPOPULAR\nCollege Basketball (M)\nNBA\nNHL\nTHE PLAYERS Championship\nUFC\nWorld Baseball Classic\nEnglish Premier League\nSpain - La Liga\nATP - Indian Wells\nMexico - Liga MX\nChampions League\nMLS\nItaly - Serie A\nCollege Baseball\nFrance - Ligue 1\nFormula 1\nSPORT TEAMS\nA-Z SPORTS\nAUSSIE RULES\nBASEBALL\nBASKETBALL\nNBA\nCollege Basketball (M)\nCollege Basketball (W)\nEuroLeague\nView All (55)\nBOXING\nCRICKET\nCYCLING\nDARTS\nE-SPORTS\nFOOTBALL\nGOLF\nHANDBALL\nHOCKEY\nJAI ALAI\nLACROSSE\nMMA\nMOTORSPORTS\nRODEO\nRUGBY LEAGUE\nRUGBY UNION\nSAILING\nSNOOKER\nSOCCER\nTABLE TENNIS\nTENNIS\nVOLLEYBALL\nNFL WEEKLY ODDS\nPRIMETIME GAMES\nPROP BETS\nFUTURES\nPLAYOFF PAGES\nCollege Football Playoffs\nNBA Playoffs\nNFL Playoffs\nCHAMPIONSHIP PAGES\nDaytona 500\nNBA Finals\nRyder Cup\nStanley Cup\nSuper Bowl\nWorld Series\nSportsbook / Basketball Odds / NBA Odds\nGet A 30% Profit Boost To Use On A 4+ Leg NBA SGP Or SGPx Bet Today!\nOpt In\nJoin The NBA Player Pulse, A New Curated DraftKings Betting Group!\nJoin Now\nGAME LINES\nBET THE STARS\nLIVE PLAYER POINTS\nLIVE PLAYER ASSISTS\nLIVE PLAYER THREES\nLIVE PLAYER REBOUNDS\nLIVE PLAYER COMBOS\nPLAYER POINTS\nPLAYER THREES\nPLAYER REBOUNDS\nPLAYER ASSISTS\nPLAYER COMBOS\nPLAYER DEFENSE\nCOMBINED PLAYER PROPS\nQUICK HITS\nHALVES\nTEAM PROPS\nTEAM FUTURES\nPLAYOFFS\nPLAY IN\nSTAT LEADERS\nAWARDS\nLIVE PLAYER DEFENSE\n2026 DRAFT\nGAME\nALTERNATE SPREAD\nALTERNATE TOTAL\nSPREAD / TOTAL\nMONEYLINE / TOTAL\nMONEYLINE (3-WAY)\nHALFTIME/FULLTIME\nQUARTER/FULLTIME\n3-WAY MONEYLINE\nToday\n\nSpread\n\nTotal\n\nMoneyline\n\nWAS Wizards\n20\nAT\nBOS Celtics\n20\n+17.5\n−115\nO\n227.5\n−115\n+1000\n-17.5\n−115\nU\n227.5\n−115\n−2100\n1st Quarter2:45\nMore Bets\nTomorrow\n\nSpread\n\nTotal\n\nMoneyline\n\nORL Magic\nAT\nMIA Heat\n+4.5\n−110\nO\n237.5\n−108\n+150\n-4.5\n−110\nU\n237.5\n−112\n−180\nTomorrow 12:10 AM\nMore Bets\nDEN Nuggets\nAT\nLA Lakers\n-2.5\n−110\nO\n244.5\n−112\n−142\n+2.5\n−110\nU\n244.5\n−108\n+120\nTomorrow 12:40 AM\nMore Bets\nSAC Kings\nAT\nLA Clippers\n+13.5\n−112\nO\n233.5\n−105\n+600\n-13.5\n−108\nU\n233.5\n−115\n−900\nTomorrow 2:40 AM\nMore Bets\nNBA Betting News\n6:56 PM · Mar 13, 2026\nMost Bet NBA Player Props for Friday 3/13/26\nGarion Thorne analyzes today's popular NBA player props utilizing DraftKings Network's Most Bet Player Prop tool to spotlight top trending picks. The post Most Bet NBA Player Props for Friday 3/13/26 appeared first on DraftKings Network.\nVIEW FULL ARTICLE\nAuthor(s): Garion Thorne.\n5:14 PM · Mar 13, 2026\nBest NBA player prop bets for Friday 3/13/26\nThere are eight games of NBA action across tonight's Friday slate. We are roughly 80% of the way through the NBA season, and every matchup is beginning to carry some additional weight. Headlining tonight's matchu
+... (truncated)
+
+Agent: I can see the NBA odds data. Let me get more complete data to capture all today's games.
+
+→ Get more content to see if there are additional games
+
+  $ playwright-cli eval "document.body.innerText.substring(4000, 8000)"
+  ### Result
+" FULL ARTICLE\nAuthor(s): Garion Thorne.\n6:39 PM · Mar 10, 2026\nMost Bet NBA Player Props for Tuesday 3/10/26\nGarion Thorne analyzes today's popular NBA player props utilizing DraftKings Network's Most Bet Player Prop tool to spotlight top trending picks. The post Most Bet NBA Player Props for Tuesday 3/10/26 appeared first on DraftKings Network.\nVIEW FULL ARTICLE\nAuthor(s): Garion Thorne.\nToday's NBA Odds: NBA Betting and Odds\n\nThe NBA, with its rich history, has captivated basketball fans worldwide for decades. From its inception to its growth into a global sensation, the NBA consistently delivers thrilling moments and fierce competition. At DraftKings, we provide comprehensive coverage of NBA games, from regular-season matchups to the playoffs and the highly-anticipated NBA Finals. Whether you're a die-hard NBA fan or a casual viewer interested in exploring sports betting, our platform is diligently designed to deliver an unmatched betting experience.\n\nPopular NBA Events\n\nNBA betting involves several significant events throughout the season that attract sports lovers and bettors alike. These events provide thrilling opportunities to bet on the games and leverage the NBA odds. At DraftKings, we offer a broad spectrum of betting options and competitive NBA odds for all the major events. Let's examine some of the most eagerly anticipated NBA betting events:\n\nSeason Openers: The onset of the NBA season always brings excitement for basketball enthusiasts. It's the perfect time to evaluate the teams, their lineups, and place informed bets. Our platform offers comprehensive NBA odds, including NBA spreads, for season openers, helping you make strategic wagers and maximize potential winnings.\nNBA Playoffs: The NBA Playoffs are the culmination of the regular season, featuring the best teams vying for the championship title. The intensity of playoff games provides prime opportunities for NBA betting. At DraftKings, we offer the latest NBA betting odds for each playoff game, ensuring you have access to the most recent information for informed betting decisions.\nNBA Finals: The NBA Finals is the epitome of basketball excellence, with the top two teams competing for the championship trophy. As the anticipation rises, our platform offers an array of NBA betting options, including NBA Finals odds and NBA title odds, from traditional moneyline bets to prop bets and live in-game wagering. With our competitive NBA odds, you can augment your Finals experience and potentially earn substantial payouts.\nHow to Read NBA Odds\n\nUnderstanding NBA odds is essential for successful NBA betting. The American format is widely used for NBA odds, and it's crucial to be familiar with it. Let's illustrate this with an example:\n\nIn American odds, positive and negative odds indicate the potential profit for a $100 bet and the amount required to bet to win $100, respectively. For instance, if the NBA betting odds are +150, a $100 bet could yield a 
+... (truncated)
+
+Agent: Now I have all the data I need. Let me also look more carefully to make sure I captured all today's games.
+
+→ Check for game line elements on the page
+
+  $ playwright-cli eval "document.querySelectorAll('[class*=\"sportsbook-event-accordion\"], [class*=\"game-line\"], table').length"
+  ### Result
+0
+### Ran Playwright code
+```js
+await page.evaluate('() => (document.querySelectorAll(\'[class*="sportsbook-event-accordion"], [class*="game-line"], table\').length)');
+```
+
+→ Take a screenshot to see the visual layout of the page
+
+  $ playwright-cli screenshot
+  ### Result
+- [Screenshot of viewport](.playwright-cli/page-2026-03-14T22-30-55-825Z.png)
+### Ran Playwright code
+```js
+// Screenshot viewport and save it as .playwright-cli/page-2026-03-14T22-30-55-825Z.png
+await page.screenshot({
+path: '.playwright-cli/page-2026-03-14T22-30-55-825Z.png',
+  scale: 'css',
+  type: 'png'
+});
+```
+
+Agent: I now have all the data. Based on the page content, I can see the NBA game lines. Let me now look for the "GAME LINES" tab to ensure we're in the right section.
+
+→ Get element refs to click on GAME LINES section
+
+  $ playwright-cli snapshot
+  ### Page
+- Page URL: https://sportsbook.draftkings.com/leagues/basketball/nba
+- Page Title: NBA Betting Odds, Spreads & Lines | DraftKings Sportsbook
+- Console: 2 errors, 4 warnings
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-03-14T22-31-01-421Z.yml)
+
+→ Look for game lines tab or section
+
+  $ playwright-cli eval "document.querySelector('[class*=\"game-lines\"], [data-testid*=\"game-lines\"], a[href*=\"game-lines\"]')?.innerText"
+  ### Result
+"GAME LINES"
+### Ran Playwright code
+```js
+await page.evaluate('() => (document.querySelector(\'[class*="game-lines"], [data-testid*="game-lines"], a[href*="game-lines"]\')?.innerText)');
+```
+
+Agent: Good, we're already on the Game Lines section. Now let me extract the complete odds data from the page in a structured format.
+
+→ Format the extracted NBA betting odds into a clean JSON structure
+
+  $ playwright-cli eval "JSON.stringify({date: new Date().toISOString().split('T')[0], source: 'DraftKings Sportsbook', section: 'NBA Game Lines', games: [{status: 'LIVE - 1st Quarter 2:45', away_team: 'WAS Wizards', home_team: 'BOS Celtics', spread: {away: {line: '+17.5', odds: '-115'}, home: {line: '-17.5', odds: '-115'}}, total: {over: {line: '227.5', odds: '-115'}, under: {line: '227.5', odds: '-115'}}, moneyline: {away: '+1000', home: '-2100'}}, {status: 'Tomorrow 12:10 AM', away_team: 'ORL Magic', home_team: 'MIA Heat', spread: {away: {line: '+4.5', odds: '-110'}, home: {line: '-4.5', odds: '-110'}}, total: {over: {line: '237.5', odds: '-108'}, under: {line: '237.5', odds: '-112'}}, moneyline: {away: '+150', home: '-180'}}, {status: 'Tomorrow 12:40 AM', away_team: 'DEN Nuggets', home_team: 'LA Lakers', spread: {away: {line: '-2.5', odds: '-110'}, home: {line: '+2.5', odds: '-110'}}, total: {over: {line: '244.5', odds: '-112'}, under: {line: '244.5', odds: '-108'}}, moneyline: {away: '-142', home: '+120'}}, {status: 'Tomorrow 2:40 AM', away_team: 'SAC Kings', home_team: 'LA Clippers', spread: {away: {line: '+13.5', odds: '-112'}, home: {line: '-13.5', odds: '-108'}}, total: {over: {line: '233.5', odds: '-105'}, under: {line: '233.5', odds: '-115'}}, moneyline: {away: '+600', home: '-900'}}]}, null, 2)"
+  ### Result
+"{\n  \"date\": \"2026-03-14\",\n  \"source\": \"DraftKings Sportsbook\",\n  \"section\": \"NBA Game Lines\",\n  \"games\": [\n    {\n      \"status\": \"LIVE - 1st Quarter 2:45\",\n      \"away_team\": \"WAS Wizards\",\n      \"home_team\": \"BOS Celtics\",\n      \"spread\": {\n        \"away\": {\n          \"line\": \"+17.5\",\n          \"odds\": \"-115\"\n        },\n        \"home\": {\n          \"line\": \"-17.5\",\n          \"odds\": \"-115\"\n        }\n      },\n      \"total\": {\n        \"over\": {\n          \"line\": \"227.5\",\n          \"odds\": \"-115\"\n        },\n        \"under\": {\n          \"line\": \"227.5\",\n          \"odds\": \"-115\"\n        }\n      },\n      \"moneyline\": {\n        \"away\": \"+1000\",\n        \"home\": \"-2100\"\n      }\n    },\n    {\n      \"status\": \"Tomorrow 12:10 AM\",\n      \"away_team\": \"ORL Magic\",\n      \"home_team\": \"MIA Heat\",\n      \"spread\": {\n        \"away\": {\n          \"line\": \"+4.5\",\n          \"odds\": \"-110\"\n        },\n        \"home\": {\n          \"line\": \"-4.5\",\n          \"odds\": \"-110\"\n        }\n      },\n      \"total\": {\n        \"over\": {\n          \"line\": \"237.5\",\n          \"odds\": \"-108\"\n        },\n        \"under\": {\n          \"line\": \"237.5\",\n          \"odds\": \"-112\"\n        }\n      },\n      \"moneyline\": {\n        \"away\": \"+150\",\n        \"home\": \"-180\"\n      }\n    },\n    {\n      \"status\": \"Tomorrow 12:40 AM\",\n      \"away_team\": \"DEN Nuggets\",\n      \"home_team\": \"LA Lakers\",\n      \"spread\": {\n        \"away\": {\n          \"line\": \"-2.5\",\n          \"odds\": \"-110\"\n        },\n        \"home\": {\n          \"line\": \"+2.5\",\n          \"odds\": \"-110\"\n        }\n      },\n      \"total\": {\n        \"over\": {\n          \"line\": \"244.5\",\n          \"odds\": \"-112\"\n        },\n        \"under\": {\n          \"line\": \"244.5\",\n          \"odds\": \"-108\"\n        }\n      },\n      \"moneyline\": {\n        \"away\": \"-142\",\n        \"home\": \"+120\"\n      }\n    },\n    {\n      \"status\": \"Tomorrow 2:40 AM\",\n      \"away_team\": \"SAC Kings\",\n      \"home_team\": \"LA Clippers\",\n      \"spread\": {\n        \"away\": {\n          \"line\": \"+13.5\",\n          \"odds\": \"-112\"\n        },\n        \"home\": {\n          \"line\": \"-13.5\",\n          \"odds\": \"-108\"\n        }\n      },\n      \"total\": {\n        \"over\": {\n          \"line\": \"233.5\",\n          \"odds\": \"-105\"\n        },\n        \"under\": {\n          \"line\": \"233.5\",\n          \"odds\": \"-115\"\n        }\n      },\n      \"moneyline\": {\n        \"away\": \"+600\",\n        \"home\": \"-900\"\n      }\n    }\n  ]\n}"
+### Ran Playwright code
+```js
+await page.evaluate('() => (JSON.stringify({date: new Date().toISOString().split(\'T\')[0], source: \'DraftKings Sportsbook\', section: \'NBA Game Lines\', games: [{status
+... (truncated)
+
+Agent: I've successfully extracted the NBA betting odds. Now let me close the browser.
+
+→ Close the browser as instructed
+
+  $ playwright-cli close
+  Browser 'default' closed
+
+Agent: ## Summary
+
+I successfully navigated to DraftKings Sportsbook → NBA → Game Lines section and extracted today's betting odds. Here are the NBA game lines for today (March 14, 2026) in JSON format:
+
+```json
+{
+  "date": "2026-03-14",
+  "source": "DraftKings Sportsbook",
+  "section": "NBA Game Lines",
+  "games": [
+    {
+      "status": "LIVE - 1st Quarter 2:45",
+      "away_team": "WAS Wizards",
+      "home_team": "BOS Celtics",
+      "spread": {
+        "away": { "line": "+17.5", "odds": "-115" },
+        "home": { "line": "-17.5", "odds": "-115" }
+      },
+      "total": {
+        "over": { "line": "227.5", "odds": "-115" },
+        "under": { "line": "227.5", "odds": "-115" }
+      },
+      "moneyline": { "away": "+1000", "home": "-2100" }
+    },
+    {
+      "status": "Tomorrow 12:10 AM",
+      "away_team": "ORL Magic",
+      "home_team": "MIA Heat",
+      "spread": {
+        "away": { "line": "+4.5", "odds": "-110" },
+        "home": { "line": "-4.5", "odds": "-110" }
+      },
+      "total": {
+        "over": { "line": "237.5", "odds": "-108" },
+        "under": { "line": "237.5", "odds": "-112" }
+      },
+      "moneyline": { "away": "+150", "home": "-180" }
+    },
+    {
+      "status": "Tomorrow 12:40 AM",
+      "away_team": "DEN Nuggets",
+      "home_team": "LA Lakers",
+      "spread": {
+        "away": { "line": "-2.5", "odds": "-110" },
+        "home": { "line": "+2.5", "odds": "-110" }
+      },
+      "total": {
+        "over": { "line": "244.5", "odds": "-112" },
+        "under": { "line": "244.5", "odds": "-108" }
+      },
+      "moneyline": { "away": "-142", "home": "+120" }
+    },
+    {
+      "status": "Tomorrow 2:40 AM",
+      "away_team": "SAC Kings",
+      "home_team": "LA Clippers",
+      "spread": {
+        "away": { "line": "+13.5", "odds": "-112" },
+        "home": { "line": "-13.5", "odds": "-108" }
+      },
+      "total": {
+        "over": { "line": "233.5", "odds": "-105" },
+        "under": { "line": "233.5", "odds": "-115" }
+      },
+      "moneyline": { "away": "+600", "home": "-900" }
+    }
+  ]
+}
+```
+
+**Key Highlights:**
+- **WAS Wizards @ BOS Celtics** — LIVE (1st Quarter), Celtics heavily favored at -17.5 spread, ML -2100
+- **ORL Magic @ MIA Heat** — Heat favored at -4.5, ML -180
+- **DEN Nuggets @ LA Lakers** — Nuggets slightly favored at -2.5, ML -142
+- **SAC Kings @ LA Clippers** — Clippers heavily favored at -13.5, ML -900
+
+FINAL_RESULT: PASS
+
+──────────────────────────────────────────────────
+Done.

@@ -1,0 +1,8 @@
+{
+  "test_case": "testdescription1",
+  "timestamp": "2026-03-14 17:03:10",
+  "status": "PASS",
+  "completed": true,
+  "log_file": "agent_1_testdescription1_20260314_170000.txt",
+  "summary": "File \"/app/aiagentcontroller.py\", line 202, in main\nsubprocess.run([\nFile \"/usr/local/lib/python3.12/subprocess.py\", line 548, in run\nwith Popen(*popenargs, **kwargs) as process:\n^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFile \"/usr/local/lib/python3.12/subprocess.py\", line 1026, in __init__\nself._execute_child(args, executable, preexec_fn, close_fds,\nFile \"/usr/local/lib/python3.12/subprocess.py\", line 1955, in _execute_child\nraise child_exception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: 'pytest'"
+}

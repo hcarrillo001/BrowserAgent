@@ -1,6 +1,0 @@
-1. Navigate to: https://the-internet.herokuapp.com/
-2. We are going to do the Click on Add/Remove Challenge
-3. Add 5 items.
-4. Delete 4 of the items.
-5. If the final items left is 1 then we consider this a Pass test.
-6. Close Browser

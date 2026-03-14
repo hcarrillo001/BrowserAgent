@@ -1,6 +1,0 @@
-Description
-1. Navigate to draftkings.com
-2. Navigate to the nba section then gamelines section. And get me the betting odds of today.
-4. Display the odds for nba game today in json format
-5. Close Browser.
-
