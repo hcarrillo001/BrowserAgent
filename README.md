@@ -1,14 +1,12 @@
-# BrowserAgent 🤖
+# BrowserAgent 🤖 — Self-Healing AI Browser Test Automation
 
 > Browser test automation in plain English — powered by Claude AI
 
-**⚡ Parallel Execution** — Spin up multiple isolated Docker containers simultaneously, one per test case. 10 tests = 10 browsers running at the same time.
+> ⚡ **Why not MCP?** BrowserAgent uses `playwright-cli` directly instead of the Playwright MCP server — making it significantly faster, more token-efficient, and cheaper to run. MCP loads large tool schemas into context on every turn. BrowserAgent doesn't.
 
-**⚡ Why not MCP?** BrowserAgent uses `playwright-cli` directly instead of the Playwright MCP server — making it significantly faster, more token-efficient, and cheaper to run. MCP loads large tool schemas into context on every turn. BrowserAgent doesn't.
+> 🔧 **Self-Healing** — Unlike traditional automation tools that break when UI changes, BrowserAgent uses Claude AI to dynamically interpret the page on every step. No brittle CSS selectors or XPath. If a button moves or gets renamed, the agent figures it out automatically.
 
-**🐳 Fully Containerized** — Every test runs in its own isolated Docker container with its own Chrome browser, filesystem, and network. No shared sessions, no interference.
-
-**📊 Pytest Reporting** — Automatic HTML reports and JSON summaries generated after every run via pytest integration. Every test case gets its own result file.
+**⚡ Parallel Execution** — Spin up multiple isolated Docker containers simultaneously...
 
 ---
 
