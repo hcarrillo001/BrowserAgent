@@ -211,6 +211,13 @@ Use this when you want to **run a subset of tests** in parallel.
 python containerorchestrator.py testdescription1.txt testdescription2.txt
 ```
 
+
+### Option 4 - Control how many run at once (default: 5):
+
+```bash
+python containerorchestrator.py --all --concurrency 4
+```
+
 **What happens:**
 Same as `--all` but only spins up containers for the files you specify.
 

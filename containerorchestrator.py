@@ -4,12 +4,14 @@ Orchestrator — spins up one Docker container per instruction file.
 Usage:
   python containerorchestrator.py task1.txt task2.txt task3.txt
   python containerorchestrator.py --all
+  python containerorchestrator.py --all --concurrency 5
 """
 
 import os
 import sys
 import threading
 import subprocess
+import argparse
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -18,39 +20,41 @@ TESTCASES_DIR = "testcases"
 RESULTS_DIR = "containertestcaseresults"
 
 _print_lock = threading.Lock()
+_semaphore = None  # set in main()
 
 def tprint(agent_id: int, msg: str):
     with _print_lock:
         print(f"[Agent {agent_id}] {msg}", flush=True)
 
 def run_container(filename: str, agent_id: int, run_dir: str):
-    tprint(agent_id, f"Starting → {filename}")
+    with _semaphore:
+        tprint(agent_id, f"Starting → {filename}")
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    stem = os.path.splitext(filename)[0]
-    log_file = os.path.join(run_dir, f"agent_{agent_id}_{stem}_{timestamp}.txt")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        stem = os.path.splitext(filename)[0]
+        log_file = os.path.join(run_dir, f"agent_{agent_id}_{stem}_{timestamp}.txt")
 
-    cmd = [
-        "docker", "run",
-        "--rm",
-        "--platform", "linux/amd64",
-        "--cap-add=SYS_ADMIN",
-        "--name", f"pw_agent_{agent_id}",
-        "-e", f"ANTHROPIC_API_KEY={os.getenv('ANTHROPIC_API_KEY')}",
-        "-e", "HEADLESS=true",
-        "-v", f"{os.path.abspath('.')}:/app/tasks",
-        IMAGE_NAME,
-        "python", "aiagentcontroller.py", f"tasks/{TESTCASES_DIR}/{filename}"
-    ]
+        cmd = [
+            "docker", "run",
+            "--rm",
+            "--platform", "linux/amd64",
+            "--cap-add=SYS_ADMIN",
+            "--name", f"pw_agent_{agent_id}",
+            "-e", f"ANTHROPIC_API_KEY={os.getenv('ANTHROPIC_API_KEY')}",
+            "-e", "HEADLESS=true",
+            "-v", f"{os.path.abspath('.')}:/app/tasks",
+            IMAGE_NAME,
+            "python", "aiagentcontroller.py", f"tasks/{TESTCASES_DIR}/{filename}"
+        ]
 
-    try:
-        with open(log_file, "w") as f:
-            subprocess.run(cmd, text=True, stdout=f, stderr=f)
-        tprint(agent_id, f"Output saved to {log_file}")
-    except Exception as e:
-        tprint(agent_id, f"Error: {e}")
-    finally:
-        tprint(agent_id, "Done.")
+        try:
+            with open(log_file, "w") as f:
+                subprocess.run(cmd, text=True, stdout=f, stderr=f)
+            tprint(agent_id, f"Output saved to {log_file}")
+        except Exception as e:
+            tprint(agent_id, f"Error: {e}")
+        finally:
+            tprint(agent_id, "Done.")
 
 def run_agents_parallel(filenames: list[str], run_dir: str):
     threads = []
@@ -85,28 +89,35 @@ def build_image():
     print("Image built.\n")
 
 def main():
+    global _semaphore
+
     load_dotenv()
 
-    if len(sys.argv) < 2:
+    parser = argparse.ArgumentParser(description="BrowserAgent Orchestrator")
+    parser.add_argument("--all", action="store_true", help="Run all test cases in testcases/")
+    parser.add_argument("--concurrency", type=int, default=5, help="Max parallel containers (default: 5)")
+    parser.add_argument("files", nargs="*", help="Specific test case files to run")
+    args = parser.parse_args()
+
+    if not args.all and not args.files:
         print("Usage:")
         print("  python containerorchestrator.py --all")
+        print("  python containerorchestrator.py --all --concurrency 5")
         print("  python containerorchestrator.py task1.txt task2.txt ...")
         sys.exit(1)
 
-    if sys.argv[1] == "--all":
-        filenames = get_all_testcases()
-        print(f"Found {len(filenames)} test cases: {filenames}\n")
-    else:
-        filenames = sys.argv[1:]
+    _semaphore = threading.Semaphore(args.concurrency)
 
-    # Create run dir before containers start
+    filenames = get_all_testcases() if args.all else args.files
+    print(f"Found {len(filenames)} test cases | concurrency: {args.concurrency}\n")
+
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     run_dir = os.path.join(RESULTS_DIR, f"run_{timestamp}")
     os.makedirs(run_dir, exist_ok=True)
     print(f"Run directory: {run_dir}\n")
 
     build_image()
-    print(f"Spinning up {len(filenames)} containers...\n")
+    print(f"Spinning up containers (max {args.concurrency} at a time)...\n")
     run_agents_parallel(filenames, run_dir)
     print("\nAll agents finished.")
 
@@ -116,7 +127,7 @@ def main():
         f"--html={run_dir}/report_{timestamp}.html",
         "--self-contained-html",
         "-v",
-        f"--tb=short"
+        "--tb=short"
     ])
     print(f"\nAll results saved to {run_dir}/")
 
